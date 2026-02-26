@@ -65,15 +65,13 @@ export const KanbanBoard: React.FC = () => {
     };
 
     const handleDeleteCard = (_columnId: string, cardId: string) => {
-        if (window.confirm('Are you sure you want to delete this task?')) {
-            setData((prev) => ({
-                ...prev,
-                columns: prev.columns.map((col) => ({
-                    ...col,
-                    cards: col.cards.filter((card) => card.id !== cardId)
-                })),
-            }));
-        }
+        setData((prev) => ({
+            ...prev,
+            columns: prev.columns.map((col) => ({
+                ...col,
+                cards: col.cards.filter((card) => card.id !== cardId)
+            })),
+        }));
     };
 
     const onDragStart = (event: DragStartEvent) => {

@@ -8,8 +8,7 @@ interface ShowcaseLayoutProps {
 export const ShowcaseLayout: React.FC<ShowcaseLayoutProps> = ({ children }) => {
     const [isDark, setIsDark] = useState(() => {
         if (typeof window !== 'undefined') {
-            const saved = localStorage.getItem('theme');
-            return saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches);
+            return localStorage.getItem('theme') === 'dark';
         }
         return false;
     });

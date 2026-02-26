@@ -13,7 +13,9 @@ import {
     Edit2,
     Trash2,
     Loader2,
-    Package
+    Package,
+    Check,
+    X
 } from 'lucide-react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
@@ -37,6 +39,7 @@ export const TreeNode: React.FC<TreeNodeProps> = ({
 }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [editValue, setEditValue] = useState(node.label);
+    const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
     const inputRef = useRef<HTMLInputElement>(null);
 
     const {
@@ -169,32 +172,54 @@ export const TreeNode: React.FC<TreeNodeProps> = ({
                 )}
 
                 {/* Actions */}
-                <div className="hidden group-hover:flex items-center gap-1.5 ml-3 bg-slate-50 dark:bg-slate-800/80 px-2 rounded-lg backdrop-blur-sm shadow-sm ring-1 ring-slate-200 dark:ring-slate-700">
-                    <button
-                        onClick={(e) => { e.stopPropagation(); onAdd(node.id); }}
-                        onPointerDown={(e) => e.stopPropagation()}
-                        className="p-1 hover:bg-slate-200 dark:hover:bg-slate-700 rounded text-slate-500 dark:text-slate-400 transition-colors"
-                        title="Add Item"
-                    >
-                        <Plus className="w-3.5 h-3.5" />
-                    </button>
-                    <button
-                        onClick={(e) => { e.stopPropagation(); setIsEditing(true); }}
-                        onPointerDown={(e) => e.stopPropagation()}
-                        className="p-1 hover:bg-slate-200 dark:hover:bg-slate-700 rounded text-slate-500 dark:text-slate-400 transition-colors"
-                        title="Rename"
-                    >
-                        <Edit2 className="w-3 h-3" />
-                    </button>
-                    <button
-                        onClick={(e) => { e.stopPropagation(); onDelete(node.id); }}
-                        onPointerDown={(e) => e.stopPropagation()}
-                        className="p-1 hover:bg-red-100 rounded text-red-500 transition-colors"
-                        title="Delete"
-                    >
-                        <Trash2 className="w-3.5 h-3.5" />
-                    </button>
-                </div>
+                {isConfirmingDelete ? (
+                    <div className="flex items-center gap-1 ml-2 bg-rose-50 dark:bg-rose-900/20 px-2 py-0.5 rounded-lg border border-rose-200 dark:border-rose-800">
+                        <span className="text-[10px] font-bold text-rose-500 dark:text-rose-400 mr-1">Delete?</span>
+                        <button
+                            onClick={(e) => { e.stopPropagation(); onDelete(node.id); }}
+                            onPointerDown={(e) => e.stopPropagation()}
+                            className="p-0.5 bg-rose-500 hover:bg-rose-600 text-white rounded transition-colors"
+                            title="Confirm delete"
+                        >
+                            <Check className="w-3 h-3" />
+                        </button>
+                        <button
+                            onClick={(e) => { e.stopPropagation(); setIsConfirmingDelete(false); }}
+                            onPointerDown={(e) => e.stopPropagation()}
+                            className="p-0.5 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 text-slate-600 dark:text-slate-300 rounded transition-colors"
+                            title="Cancel"
+                        >
+                            <X className="w-3 h-3" />
+                        </button>
+                    </div>
+                ) : (
+                    <div className="hidden group-hover:flex items-center gap-1.5 ml-3 bg-slate-50 dark:bg-slate-800/80 px-2 rounded-lg backdrop-blur-sm shadow-sm ring-1 ring-slate-200 dark:ring-slate-700">
+                        <button
+                            onClick={(e) => { e.stopPropagation(); onAdd(node.id); }}
+                            onPointerDown={(e) => e.stopPropagation()}
+                            className="p-1 hover:bg-slate-200 dark:hover:bg-slate-700 rounded text-slate-500 dark:text-slate-400 transition-colors"
+                            title="Add Item"
+                        >
+                            <Plus className="w-3.5 h-3.5" />
+                        </button>
+                        <button
+                            onClick={(e) => { e.stopPropagation(); setIsEditing(true); }}
+                            onPointerDown={(e) => e.stopPropagation()}
+                            className="p-1 hover:bg-slate-200 dark:hover:bg-slate-700 rounded text-slate-500 dark:text-slate-400 transition-colors"
+                            title="Rename"
+                        >
+                            <Edit2 className="w-3 h-3" />
+                        </button>
+                        <button
+                            onClick={(e) => { e.stopPropagation(); setIsConfirmingDelete(true); }}
+                            onPointerDown={(e) => e.stopPropagation()}
+                            className="p-1 hover:bg-red-100 dark:hover:bg-rose-900/30 rounded text-red-500 dark:text-rose-400 transition-colors"
+                            title="Delete"
+                        >
+                            <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                    </div>
+                )}
             </div>
 
             {/* Vertical line for the children container */}

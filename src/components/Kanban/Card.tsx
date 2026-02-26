@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import type { Card as ICard } from './kanbanTypes';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { Edit2, Trash2, GripVertical } from 'lucide-react';
+import { Edit2, Trash2, GripVertical, Check, X } from 'lucide-react';
 
 interface CardProps {
     card: ICard;
@@ -14,6 +14,7 @@ interface CardProps {
 export const Card: React.FC<CardProps> = ({ card, columnId, onEdit, onDelete }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [editValue, setEditValue] = useState(card.title);
+    const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
     const inputRef = useRef<HTMLInputElement>(null);
 
     const {
@@ -65,8 +66,36 @@ export const Card: React.FC<CardProps> = ({ card, columnId, onEdit, onDelete }) 
         <div
             ref={setNodeRef}
             style={style}
-            className="bg-white dark:bg-slate-800 p-3 rounded-xl shadow-sm dark:shadow-md border border-slate-200 dark:border-slate-700 group relative mb-3 hover:border-blue-300 dark:hover:border-blue-500 hover:shadow-md dark:hover:shadow-blue-900/10 transition-all duration-200"
+            className={`bg-white dark:bg-slate-800 p-3 rounded-xl shadow-sm dark:shadow-md border group relative mb-3 transition-all duration-200 ${isConfirmingDelete
+                ? 'border-rose-400 dark:border-rose-500 ring-2 ring-rose-100 dark:ring-rose-900/30'
+                : 'border-slate-200 dark:border-slate-700 hover:border-blue-300 dark:hover:border-blue-500 hover:shadow-md dark:hover:shadow-blue-900/10'
+                }`}
         >
+            {/* Inline Delete Confirmation Bar */}
+            {isConfirmingDelete && (
+                <div className="flex items-center justify-between mb-2 px-2 py-1.5 bg-rose-50 dark:bg-rose-900/20 rounded-lg border border-rose-200 dark:border-rose-800">
+                    <span className="text-xs font-semibold text-rose-600 dark:text-rose-400">Delete this task?</span>
+                    <div className="flex items-center gap-1">
+                        <button
+                            onClick={(e) => { e.stopPropagation(); onDelete(columnId, card.id); }}
+                            onPointerDown={(e) => e.stopPropagation()}
+                            className="p-1 bg-rose-500 hover:bg-rose-600 text-white rounded-md transition-colors"
+                            title="Confirm delete"
+                        >
+                            <Check className="w-3.5 h-3.5" />
+                        </button>
+                        <button
+                            onClick={(e) => { e.stopPropagation(); setIsConfirmingDelete(false); }}
+                            onPointerDown={(e) => e.stopPropagation()}
+                            className="p-1 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 text-slate-600 dark:text-slate-300 rounded-md transition-colors"
+                            title="Cancel"
+                        >
+                            <X className="w-3.5 h-3.5" />
+                        </button>
+                    </div>
+                </div>
+            )}
+
             <div className="flex items-start gap-3">
                 <div {...attributes} {...listeners} className="mt-1 cursor-grab active:cursor-grabbing text-slate-300 dark:text-slate-600 hover:text-slate-400 dark:hover:text-slate-500 transition-colors">
                     <GripVertical className="w-4 h-4" />
@@ -102,7 +131,7 @@ export const Card: React.FC<CardProps> = ({ card, columnId, onEdit, onDelete }) 
                         <Edit2 className="w-3.5 h-3.5" />
                     </button>
                     <button
-                        onClick={(e) => { e.stopPropagation(); onDelete(columnId, card.id); }}
+                        onClick={(e) => { e.stopPropagation(); setIsConfirmingDelete(true); }}
                         onPointerDown={(e) => e.stopPropagation()}
                         className="p-1.5 hover:bg-rose-50 dark:hover:bg-rose-900/30 rounded-lg text-slate-400 dark:text-slate-500 hover:text-rose-600 dark:hover:text-rose-400 transition-colors"
                         title="Delete task"

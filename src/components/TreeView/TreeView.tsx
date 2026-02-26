@@ -99,9 +99,7 @@ export const TreeView: React.FC = () => {
     };
 
     const handleDelete = (id: string) => {
-        if (window.confirm('Are you sure you want to delete this node and all its children?')) {
-            setData(prev => removeNodeFromTree(prev, id));
-        }
+        setData(prev => removeNodeFromTree(prev, id));
     };
 
     const handleDragStart = (_event: DragStartEvent) => {
