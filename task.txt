@@ -1,0 +1,182 @@
+'You are a senior front-end engineer working in a production-grade React + TypeScript codebase.
+Your task is to implement two reusable components according to the attached assignment:
+	1.	<TreeView />
+	2.	<KanbanBoard />
+
+The solution must be clean, scalable, well-typed, and production-quality. Prioritize clarity, maintainability, and correctness over shortcuts.
+
+⸻
+
+🏗️ Tech Stack & Constraints
+	•	Use React + TypeScript
+	•	Prefer functional components + hooks
+	•	Use clean state management (local state or Context; Zustand optional but not required)
+	•	Use minimal external libraries
+	•	Drag & Drop: You may use @dnd-kit or react-dnd (choose one and be consistent)
+	•	Styling: Minimal, clean UI (CSS modules / Tailwind / plain CSS acceptable)
+	•	Code quality expectations:
+	•	Strong typing for all data models
+	•	Reusable components
+	•	Proper separation of concerns
+	•	No hard-coded hacks
+	•	Predictable state updates
+	•	Readable folder structure
+
+⸻
+
+✅ Part 1: Tree View Component
+
+🎯 Objective
+
+Build a fully functional, reusable <TreeView /> component that renders a hierarchical tree with CRUD + drag & drop + lazy loading.
+
+📦 Data Model (Design this cleanly)
+
+Each node should have:
+	•	id: string
+	•	label: string
+	•	hasChildren: boolean
+	•	children?: TreeNode[]
+	•	isExpanded?: boolean
+	•	isLoading?: boolean
+
+🧠 Features to Implement
+	1.	Expand / Collapse
+	•	Parent nodes toggle open/closed
+	•	Chevron / icon changes based on state
+	•	Children render only when expanded
+	2.	Lazy Loading (Simulated API)
+	•	When expanding a node that has no children loaded:
+	•	Show loading indicator
+	•	Simulate async fetch with setTimeout
+	•	Inject mock children
+	•	Cache result so it does not refetch again
+	3.	Add Node
+	•	User can add a child to any node
+	•	Use inline input or prompt
+	•	Insert into correct position in tree
+	•	Update state immutably
+	4.	Edit Node
+	•	Inline edit on double click or edit button
+	•	Save on blur / Enter
+	•	Escape cancels edit
+	5.	Delete Node
+	•	Delete any node and its subtree
+	•	Show confirmation dialog before delete
+	•	Remove node from tree immutably
+	6.	Drag & Drop
+	•	Reorder nodes:
+	•	Within same parent
+	•	Across different parents
+	•	Maintain valid tree hierarchy
+	•	Prevent illegal drops (e.g., dropping into its own subtree)
+	•	Update tree state correctly after drop
+	7.	Architecture
+	•	<TreeView /> (root)
+	•	<TreeNode /> (recursive)
+	•	Utility functions:
+	•	findNodeById
+	•	removeNode
+	•	insertNode
+	•	moveNode
+	•	Keep tree operations pure and testable
+
+⸻
+
+✅ Part 2: Kanban Board Component
+
+🎯 Objective
+
+Build a reusable <KanbanBoard /> with three columns:
+	•	Todo
+	•	In Progress
+	•	Done
+
+📦 Data Model
+	•	Board:
+	•	columns: Column[]
+	•	Column:
+	•	id: string
+	•	title: string
+	•	cards: Card[]
+	•	Card:
+	•	id: string
+	•	title: string
+
+🧠 Features to Implement
+	1.	Add / Delete Cards
+	•	Add new card to any column
+	•	Delete card from column
+	•	State updates must be immutable
+	2.	Edit Card Title
+	•	Inline edit on click
+	•	Save on blur / Enter
+	•	Escape cancels
+	3.	Drag & Drop
+	•	Move cards:
+	•	Within same column (reorder)
+	•	Across columns
+	•	Preserve order
+	•	Use same DnD library as TreeView
+	4.	Responsive Layout
+	•	Desktop: 3 columns side by side
+	•	Mobile: Columns stack vertically
+	•	Use CSS Grid or Flexbox
+	5.	Component Structure
+	•	<KanbanBoard />
+	•	<Column />
+	•	<Card />
+
+⸻
+
+🧱 Project Structure (Suggested)
+	•	src/
+	•	components/
+	•	TreeView/
+	•	TreeView.tsx
+	•	TreeNode.tsx
+	•	treeTypes.ts
+	•	treeUtils.ts
+	•	Kanban/
+	•	KanbanBoard.tsx
+	•	Column.tsx
+	•	Card.tsx
+	•	kanbanTypes.ts
+	•	mockData/
+	•	App.tsx
+	•	main.tsx
+
+⸻
+
+🧪 Quality Bar
+	•	No any types
+	•	No deeply nested state mutations
+	•	All operations done immutably
+	•	Clean UI, but no overengineering
+	•	Code should be review-ready for a senior frontend interview
+
+⸻
+
+🚀 Deliverables
+	•	Working TreeView with:
+	•	Expand/collapse
+	•	Lazy loading
+	•	Add / Edit / Delete
+	•	Drag & drop
+	•	Working KanbanBoard with:
+	•	Add / Edit / Delete cards
+	•	Drag & drop across columns
+	•	Responsive layout
+	•	Clean, typed, maintainable code
+
+⸻
+
+⚠️ Implementation Guidance
+	•	Start by implementing static UI
+	•	Then wire state management
+	•	Then add CRUD
+	•	Then add DnD
+	•	Then add lazy loading
+	•	Refactor utilities into pure functions
+	•	Add basic loading indicators and empty states
+'
