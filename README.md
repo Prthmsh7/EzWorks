@@ -4,7 +4,7 @@ Hi! This is my submission for the EzWorks front-end developer assessment. I've b
 
 ## Live Demo
 
-> _Deploy link will be added here once hosted._
+> _Deploy link: https://ez-works-puce.vercel.app/
 
 ## My Approach
 
